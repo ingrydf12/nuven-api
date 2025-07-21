@@ -1,10 +1,11 @@
 import express from 'express';
+import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
-import prisma from './database/prisma.js';
 import datasetsRoutes from './routes/datasetsRoutes.js';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 
