@@ -1,6 +1,6 @@
+import prisma from '../database/prisma.js';
 import fs from 'fs/promises';
 import path from 'path';
-import prisma from '../database/prisma.js';
 
 export const uploadDataset = async (req, res) => {
   try {
@@ -13,39 +13,47 @@ export const uploadDataset = async (req, res) => {
       data: {
         nome: originalname,
         usuario_id: userId,
+        criado_em: new Date(),
       },
     });
 
-    let dadosJsonString = null;
-
+    // No caso de ser csv, vai extrair os dados
+    let dadosJson = null;
     if (path.extname(originalname) === '.csv') {
-      const csvContent = await fs.readFile(filePath, 'utf8');
-      const rows = csvContent.split('\n').filter(Boolean);
-      const headers = rows[0].split(',');
+      const csv = await fs.readFile(filePath, 'utf8');
+      const linhas = csv.split('\n').filter(Boolean);
+      const cabecalhos = linhas[0].split(',');
 
-      const jsonData = rows.slice(1).map(row => {
-        const values = row.split(',');
+      const json = linhas.slice(1).map(linha => {
+        const colunas = linha.split(',');
         const obj = {};
-        headers.forEach((h, i) => (obj[h.trim()] = values[i]?.trim() || null));
+        cabecalhos.forEach((chave, i) => {
+          obj[chave.trim()] = colunas[i]?.trim() || null;
+        });
         return obj;
       });
 
-      dadosJsonString = JSON.stringify(jsonData);
-    } else if (path.extname(originalname) === '.pdf') {
-      const pdfBuffer = await fs.readFile(filePath);
-      dadosJsonString = JSON.stringify({ base64: pdfBuffer.toString('base64') });
+      dadosJson = JSON.stringify(json);
     }
 
-    if (dadosJsonString) {
+    // E do tipo pdf, vai mudar pra base64
+    else if (path.extname(originalname) === '.pdf') {
+      const pdfBuffer = await fs.readFile(filePath);
+      dadosJson = JSON.stringify({ base64: pdfBuffer.toString('base64') });
+    }
+
+    //Vincula aos records
+    if (dadosJson) {
       await prisma.records.create({
         data: {
           dataset_id: dataset.id,
-          dados_json: dadosJsonString,
+          dados_json: dadosJson,
+          criado_em: new Date(),
         },
       });
     }
 
-    res.status(201).json({ message: 'Upload e processamento concluído', datasetId: dataset.id });
+    res.status(201).json({ message: 'Upload realizado com sucesso', datasetId: dataset.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao processar o upload' });
