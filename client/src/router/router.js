@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Login from "../pages/Login.vue";
 import DocumentDashboard from "../pages/DocumentDashboard.vue";
+import Register from "../pages/Register.vue";
 
 const routes = [
   { path: "/", redirect: "/login" },
   { path: "/login", component: Login },
-/*   { path: "/register", component: Register },
- */  { path: "/document-dashboard", component: DocumentDashboard },
+  { path: "/register", component: Register },
+  { path: "/document-dashboard", component: DocumentDashboard },
 ];
 
 const router = createRouter({
