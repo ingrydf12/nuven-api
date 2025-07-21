@@ -30,7 +30,7 @@ model datasets {
 model records {
   id         Int      @id @default(autoincrement())
   dataset_id Int
-  dados_json String
+  dados_json Json
   criado_em  DateTime @default(now())
 
   dataset datasets @relation(fields: [dataset_id], references: [id])
