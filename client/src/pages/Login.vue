@@ -15,12 +15,17 @@ const handleLogin = async () => {
         localStorage.setItem('user', JSON.stringify(user));
         navigateToDashboard();
     } catch (error) {
+
         console.error('Erro no login:', error);
     }
 };
 
 const navigateToDashboard = () => {
     router.push('/document-dashboard');
+};
+
+const navigateToRegister = () => {
+    router.push('/register');
 };
 
 </script>
@@ -33,9 +38,14 @@ const navigateToDashboard = () => {
             <h1>Login</h1>
         </div>
         <div class="right-side">
+            <h3>Email</h3>
             <TextField v-model="email" placeholder="Digite seu email" />
+            <h3>Senha</h3>
             <TextField v-model="password" placeholder="Digite sua senha" type="password" />
             <button @click="handleLogin">Entrar</button>
+            <div class="register-link">
+                <p>Não tem uma conta? <a @click.prevent="navigateToRegister">Registrar</a></p>
+            </div>
         </div>
     </div>
 </template>
@@ -66,7 +76,8 @@ h1 {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 0.5rem;
 }
 
 .auth-page button {
@@ -81,5 +92,9 @@ h1 {
 
 .auth-page button:hover {
     background-color: darken(var(--secondary), 50%);
+}
+
+.register-link:hover {
+    cursor: pointer;
 }
 </style>
