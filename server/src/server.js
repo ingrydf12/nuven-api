@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import datasetsRoutes from './routes/datasetsRoutes.js';
+import recordsRoutes from './routes/recordsRoutes.js';
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use('/', authRoutes);
 app.use('/datasets', datasetsRoutes);
+app.use('/records', recordsRoutes)
 
 app.get('/', (_req, res) => {
   res.send('NUVEN API - Desafio técnico, Ingryd.');
