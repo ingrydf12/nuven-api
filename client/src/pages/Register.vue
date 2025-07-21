@@ -3,6 +3,7 @@ import TextField from '../components/TextField.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { register } from '../service/authService';
+import '../authStyle.css';
 
 const nome = ref('');
 const email = ref('');
@@ -48,59 +49,3 @@ const navigateToLogin = () => {
         </div>
     </div>
 </template>
-
-<style scoped>
-h1 {
-    font-size: 3em;
-    margin-bottom: 0.5em;
-}
-
-.auth-page {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: var(--background);
-}
-
-.left-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    word-wrap: break-word;
-}
-
-.left-side h1 {
-    margin-bottom: 1rem;
-    word-wrap: break-word;
-    max-width: 50%;
-}
-
-.right-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-}
-
-.auth-page button {
-    background-color: var(--secondary);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 0.8rem 3rem;
-    font-size: 1em;
-    cursor: pointer;
-}
-
-.auth-page button:hover {
-    background-color: darken(var(--secondary), 50%);
-}
-
-.register-link:hover {
-    cursor: pointer;
-}
-</style>
