@@ -1,25 +1,41 @@
 <script setup>
 import TextField from '../components/TextField.vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { login } from '../service/authService';
 
 const email = ref('');
 const password = ref('');
 
-const login = () => {
-    // Handle login logic here
+const router = useRouter();
+
+const handleLogin = async () => {
+    try {
+        const user = await login(email.value, password.value);
+        localStorage.setItem('user', JSON.stringify(user));
+        navigateToDashboard();
+    } catch (error) {
+        console.error('Erro no login:', error);
+    }
 };
+
+const navigateToDashboard = () => {
+    router.push('/document-dashboard');
+};
+
 </script>
 
 <template>
     <div class="auth-page">
         <div class="left-side">
-            <img src="" alt="Logo Nuven" />
+            <img src="https://github.com/ingrydf12/nuven-api/blob/master/client/public/labnuven.png?raw=true"
+                alt="Logo Nuven" />
             <h1>Login</h1>
         </div>
         <div class="right-side">
             <TextField v-model="email" placeholder="Digite seu email" />
             <TextField v-model="password" placeholder="Digite sua senha" type="password" />
-            <button @click="login">Entrar</button>
+            <button @click="handleLogin">Entrar</button>
         </div>
     </div>
 </template>
