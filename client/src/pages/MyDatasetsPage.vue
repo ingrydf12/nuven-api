@@ -5,6 +5,7 @@ import RightBar from '../components/RightBar.vue';
 import { listarDataset } from '../service/datasetService.js';
 import ModalDetails from '../components/ModalDetails.vue';
 import { pesquisarRegistros } from '../service/recordsService.js';
+import InterfaceHuggingSearch from '../components/InterfaceHuggingSearch.vue';
 
 const datasets = ref([]);
 const selectedDatasetId = ref(null);
@@ -40,13 +41,6 @@ const closeModal = () => {
     showModal.value = false;
 };
 
-const editDataset = (id) => {
-    console.log("Editar dataset", id);
-};
-
-const deleteDataset = (id) => {
-    console.log("Excluir dataset", id);
-};
 
 </script>
 
@@ -59,6 +53,7 @@ const deleteDataset = (id) => {
             <table class="datasets-table">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nome do arquivo</th>
                         <th>Tipo</th>
                         <th>Envio</th>
@@ -72,30 +67,33 @@ const deleteDataset = (id) => {
                 </tbody>
                 <tbody v-else>
                     <tr v-for="dataset in datasets" :key="dataset.id">
+                        <td>{{ dataset.id }}</td>
                         <td>{{ dataset.nome || dataset.dataset?.nome || '—' }}</td>
                         <td>{{ (dataset.nome || dataset.dataset?.nome)?.split('.').pop().toUpperCase() || '—' }}</td>
                         <td>{{ new Date(dataset.criado_em).toLocaleString() }}</td>
                         <td>
                             <button @click="viewDataset(dataset.id)">Visualizar</button>
-                            <button @click="editDataset(dataset.id)">Editar</button>
-                            <button @click="deleteDataset(dataset.id)">Excluir</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <ModalDetails :datasetId="selectedDatasetId" :show="showModal" @close="closeModal" />
         </div>
+        <InterfaceHuggingSearch />
+
         <RightBar />
     </div>
 </template>
 
 <style scoped>
 .my-datasets-page {
-    padding: 20px;
+    padding: 1rem;
+    gap: 1rem;
 }
 
 .datasets-list {
-    margin-top: 20px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .datasets-table {
@@ -108,6 +106,7 @@ const deleteDataset = (id) => {
 .datasets-table td {
     border: 1px solid #ddd;
     padding: 8px;
+    color: var(--text-color);
 }
 
 .datasets-table td {
@@ -116,5 +115,6 @@ const deleteDataset = (id) => {
 
 .datasets-table th {
     background-color: var(--primary);
+    color: var(--text-sec);
 }
 </style>
