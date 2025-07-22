@@ -4,6 +4,8 @@
 2. [Tecnologias](#tecnologias-usadas)
 3. [Documentação da API](#documentação-da-api)
 4. [Instruções de instalação](#instruções-de-instalação)
+5. [Modo de desenvolvimento](#modo-de-desenvolvimento)
+6. [Estrutura do projeto](#-estrutura-do-projeto)
 
 ## Objetivo central
 
