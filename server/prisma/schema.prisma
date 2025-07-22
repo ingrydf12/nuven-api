@@ -8,9 +8,9 @@ datasource db {
 }
 
 model users {
-  id    Int    @id @default(autoincrement())
-  nome  String
-  email String @unique
+  id         Int    @id @default(autoincrement())
+  nome       String
+  email      String @unique
   senha_hash String
 
   datasets datasets[]
@@ -25,6 +25,7 @@ model datasets {
 
   user    users     @relation(fields: [usuario_id], references: [id])
   records records[]
+  queries queries[]
 }
 
 model records {
@@ -41,7 +42,9 @@ model queries {
   usuario_id Int
   pergunta   String
   resposta   String
+  dataset_id Int
   criado_em  DateTime @default(now())
 
-  user users @relation(fields: [usuario_id], references: [id])
+  user    users    @relation(fields: [usuario_id], references: [id])
+  dataset datasets @relation(fields: [dataset_id], references: [id])
 }
