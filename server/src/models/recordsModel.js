@@ -15,10 +15,12 @@ export const listaRecordsPorQuery = async (query) => {
   try {
     const records = await prisma.records.findMany({
       where: {
-        OR: [
-          { dados_json: { contains: query, mode: 'insensitive' } },
-          { dataset: { nome: { contains: query, mode: 'insensitive' } } }
-        ]
+        dataset: {
+          nome: {
+            contains: query,
+            mode: 'insensitive'
+          }
+        }
       },
       include: {
         dataset: true
