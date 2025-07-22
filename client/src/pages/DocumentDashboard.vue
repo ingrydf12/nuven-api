@@ -9,6 +9,10 @@ const navigateToMyDatasets = () => {
     router.push('/my-datasets');
 };
 
+const navigateToMyHistory = () => {
+    router.push('/my-history');
+};
+
 </script>
 
 <template>
@@ -25,8 +29,12 @@ const navigateToMyDatasets = () => {
                 <h2>Meus datasets</h2>
                 <button @click="navigateToMyDatasets" class="btn-primary">Ver datasets</button>
             </div>
-        </div>
 
+            <div class="querie-history">
+                <h2>Seu histórico de consultas</h2>
+                <button @click="navigateToMyHistory" class="btn-primary">Ver histórico</button>
+            </div>
+        </div>
         <RightBar />
     </div>
 </template>
