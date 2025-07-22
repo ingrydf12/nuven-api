@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
     datasetId: [String, Number],
@@ -8,19 +8,12 @@ const props = defineProps({
 const emit = defineEmits(['atualizarResultados']);
 
 const searchQuery = ref('');
-let debounceTimer = null;
 
-const performSearch = () => {
-    if (!searchQuery.value.trim()) return;
-    emit('atualizarResultados', searchQuery.value);
+const performSearch = async () => {
+    const query = searchQuery.value.trim();
+    if (!query) return;
+    emit('atualizarResultados', query);
 };
-
-watch(searchQuery, () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-        performSearch();
-    }, 400);
-});
 
 </script>
 
@@ -54,7 +47,7 @@ watch(searchQuery, () => {
 .interactive-search-bar input {
     width: 100%;
     padding: 0.8em 1.2em;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--primary);
     border-radius: 4px;
     font-size: 1em;
     box-sizing: border-box;
